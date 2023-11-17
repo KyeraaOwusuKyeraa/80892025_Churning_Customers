@@ -1,1 +1,1 @@
-This is a project that helps an organization to predict their customer churn based on certain attributes.
+This project predicts customer churn using machine learning. It analyzes customer behavior features, builds models for prediction, and evaluates their performance. Dependencies include Python, goofle colab, and common data science libraries.
