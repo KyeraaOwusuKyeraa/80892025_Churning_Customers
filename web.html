@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Churn Prediction</title>
+    <link rel="stylesheet" href="web.css">
+</head>
+<body>
+    <h1>Churn Prediction</h1>
+    <form method="post" action="/predict">
+        <label>Tenure</label>
+        <input type="text" name="tenure" required><br>
+
+        <label>Monthly Charges</label>
+        <input type="text" name="MonthlyCharges" required><br>
+
+        <label>Total Charges</label>
+        <input type="text" name="TotalCharges" required><br>
+
+        <label>InternetService</label>
+        <input type="text" name="InternetService" required><br>
+
+        <label>OnlineSecurity</label>
+        <input type="text" name="OnlineSecurity" required><br>
+
+        <label>Device Protection</label>
+        <input type="text" name="DeviceProtection" required><br>
+
+        <label>Streaming Tv</label>
+        <input type="text" name="StreamingTV" required><br>
+
+        <label>TechSupport</label>
+        <input type="text" name="TechSupport" required><br>
+
+        <label>Contract</label>
+        <input type="text" name="Contract " required><br>
+
+        <label>PaymentMethod</label>
+        <input type="text" name="PaymentMethod" required><br>
+
+        <input type="submit" value="Predict">
+    </form>
+    <div class="prediction-result" id="predictionResult">
+        <form class="prediction-box" id="predictionForm">
+            <h2 id="predictionValue"></h2>
+            <p id="inputValues"></p>
+            <!-- You can add more form elements if needed -->
+            <button type="button" onclick="resetPrediction()">Reset Prediction</button>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+    $('#predictButton').click(function() {
+        // Collect user input from the form
+        var tenure = parseInt($('#tenure').val());
+        var monthly_charges = parseInt($('#monthly_charges').val());
+        var total_charges = parseInt($('#total_charges').val());
+        var internet_service = $('#internet_service').val();
+        var online_security = $('#online_security').val();
+        var device_protection = $('#device_protection').val();
+        var streaming_tv = $('#streaming_tv').val();
+        var tech_support = $('#tech_support').val();
+        var contract = $('#contract').val();
+        var payment_method = $('#payment_method').val();
+
+        // Prepare the data for the prediction request
+        var data = {
+            tenure: tenure,
+            monthly_charges: monthly_charges,
+            total_charges: total_charges,
+            internet_service: internet_service,
+            online_security: online_security,
+            device_protection: device_protection,
+            streaming_tv: streaming_tv,
+            tech_support: tech_support,
+            contract: contract,
+            payment_method: payment_method
+        };
+
+        // Send the prediction request to the server
+        $.ajax({
+            url: '/predict', // Replace with your server-side script URL
+            method: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(response) {
+                // Handle the prediction response
+                var prediction_probability = response.prediction_probability;
+                $('#predictionResult').html('Churn Probability: ' + prediction_probability + '%');
+            },
+            error: function(error) {
+                console.error('Error predicting churn probability:', error);
+            }
+        });
+    });
+});
+
+    </script>
+    
+</body>
+</html>
